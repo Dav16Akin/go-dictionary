@@ -65,7 +65,7 @@ go get github.com/gorilla/mux
 go get github.com/julienschmidt/httprouter
 ```
 
-Or use Go modules (recommended):
+Or if you want to create a go.mod file, use Go modules:
 ```bash
 go mod init github.com/Dav16Akin/go-dictionary
 go mod tidy
@@ -138,7 +138,11 @@ Server will start on `http://localhost:8000`
 
 ### Running the HttpRouter Example
 
-Note: Update the static file path in the code to match your local setup.
+**Note:** Before running, you need to update the static file path in `otherMux/httpRouter.go` (line 44):
+```go
+router.ServeFiles("/static/*filepath", http.Dir("/Users/apple/Documents/static"))
+```
+Change this path to a directory on your local machine, or comment out this line if you don't need static file serving.
 
 ```bash
 cd otherMux
