@@ -1,88 +1,199 @@
 # go-dictionary
 
-A small, idiomatic Go package that provides simple dictionary (map-like) utilities and helpers for working with words and definitions. Designed for learning, small projects, and as a starting point for building more advanced dictionary-based tools.
+A collection of Go HTTP routing examples demonstrating different web frameworks and patterns. This repository showcases practical implementations of HTTP servers using popular Go routing libraries and techniques.
 
-## Features
+## 📋 Overview
 
-- Simple, type-safe Go package
-- Basic operations: add, get, delete, update
-- Lookup helpers for definitions and synonyms (if provided)
-- Easy to extend and test
+This project contains several examples of HTTP server implementations in Go:
 
-## Installation
+1. **Gorilla Mux Router** - Example using the Gorilla Mux framework
+2. **HttpRouter** - Example using the lightweight httprouter package
+3. **Stateful API** - A complete RESTful API with in-memory user management
 
-Install the package with go get:
+These examples are designed for learning and reference, demonstrating best practices for building HTTP servers in Go.
 
-    go get github.com/Dav16Akin/go-dictionary
+## 📂 Project Structure
 
-Or use Go modules (recommended):
-
-    go get github.com/Dav16Akin/go-dictionary@latest
-
-## Quick start
-
-Import the package and use it:
-
-```go
-package main
-
-import (
-    "fmt"
-    "github.com/Dav16Akin/go-dictionary/dictionary"
-)
-
-func main() {
-    d := dictionary.New()
-
-    d.Add("gopher", "The Go mascot and an affectionate name for Go programmers.")
-    def, ok := d.Get("gopher")
-    if ok {
-        fmt.Println("gopher:", def)
-    }
-
-    d.Update("gopher", "A friendly mascot and common term for Go developers.")
-    d.Delete("obsolete")
-}
+```
+.
+├── otherMux/
+│   ├── gorillaMux.go      # Example using Gorilla Mux router
+│   └── httpRouter.go      # Example using HttpRouter
+└── testingStatefulApi/
+    └── statefulApi.go     # Stateful REST API with user CRUD operations
 ```
 
-Adjust the import path above to match the package structure in this repo if different.
+## 🚀 Features
 
-## API
+### Gorilla Mux Example (`otherMux/gorillaMux.go`)
+- Route parameters extraction
+- Pattern matching with regex
+- Clean route handling
+- Server with custom timeouts
 
-This project exposes a small, focused API (examples):
+### HttpRouter Example (`otherMux/httpRouter.go`)
+- Lightweight and fast routing
+- Static file serving
+- Command execution endpoint
+- File reading endpoint
 
-- New() *Dictionary — create a new dictionary instance
-- (d *Dictionary) Add(key, value string) error — add a new entry
-- (d *Dictionary) Get(key string) (string, bool) — retrieve an entry
-- (d *Dictionary) Update(key, value string) error — update an entry
-- (d *Dictionary) Delete(key string) error — delete an entry
+### Stateful API Example (`testingStatefulApi/statefulApi.go`)
+- RESTful user management API
+- In-memory data storage
+- Thread-safe operations with mutex
+- Full CRUD operations (Create, Read, Update, Delete)
+- JSON request/response handling
 
-Refer to the source code for exact function signatures and additional helpers.
+## 📦 Prerequisites
 
-## Tests
+- Go 1.16 or higher
+- Required dependencies:
+  - `github.com/gorilla/mux` - For Gorilla Mux example
+  - `github.com/julienschmidt/httprouter` - For HttpRouter example
 
-Run unit tests with:
+## 🔧 Installation
 
-    go test ./...
+1. Clone the repository:
+```bash
+git clone https://github.com/Dav16Akin/go-dictionary.git
+cd go-dictionary
+```
 
-Add tests for new features and edge cases.
+2. Install dependencies:
+```bash
+go get github.com/gorilla/mux
+go get github.com/julienschmidt/httprouter
+```
 
-## Contributing
+Or if you want to create a go.mod file, use Go modules:
+```bash
+go mod init github.com/Dav16Akin/go-dictionary
+go mod tidy
+```
+
+## 💻 Usage
+
+### Running the Stateful API Example
+
+The Stateful API provides a complete user management system:
+
+```bash
+cd testingStatefulApi
+go run statefulApi.go
+```
+
+Server will start on `http://localhost:8080`
+
+**API Endpoints:**
+
+- `GET /users` - List all users
+- `POST /users` - Create a new user
+- `GET /users/{id}` - Get a specific user
+- `PUT /users/{id}` - Update a user
+- `DELETE /users/{id}` - Delete a user
+
+**Example Requests:**
+
+Create a user:
+```bash
+curl -X POST http://localhost:8080/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@example.com"}'
+```
+
+Get all users:
+```bash
+curl http://localhost:8080/users
+```
+
+Get a specific user:
+```bash
+curl http://localhost:8080/users/1
+```
+
+Update a user:
+```bash
+curl -X PUT http://localhost:8080/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Jane Doe","email":"jane@example.com"}'
+```
+
+Delete a user:
+```bash
+curl -X DELETE http://localhost:8080/users/1
+```
+
+### Running the Gorilla Mux Example
+
+```bash
+cd otherMux
+go run gorillaMux.go
+```
+
+Server will start on `http://localhost:8000`
+
+**Example Routes:**
+- `GET /` - Home endpoint
+- `GET /articles/{category}/{id}` - Article endpoint with path parameters
+
+### Running the HttpRouter Example
+
+**Note:** Before running, you need to update the static file path in `otherMux/httpRouter.go` (line 44):
+```go
+router.ServeFiles("/static/*filepath", http.Dir("/Users/apple/Documents/static"))
+```
+Change this path to a directory on your local machine, or comment out this line if you don't need static file serving.
+
+```bash
+cd otherMux
+go run httpRouter.go
+```
+
+Server will start on `http://localhost:8000`
+
+**Example Routes:**
+- `GET /api/v1/go-version` - Returns Go version
+- `GET /api/v1/show-file` - Returns file content
+- `GET /static/*filepath` - Serves static files
+
+## 📚 Learning Resources
+
+These examples demonstrate:
+- HTTP server setup and configuration
+- Route handling and parameter extraction
+- RESTful API design
+- Thread-safe concurrent operations
+- JSON encoding/decoding
+- Error handling in HTTP handlers
+- Custom timeouts and server configuration
+
+## 🤝 Contributing
 
 Contributions are welcome! Please follow these guidelines:
 
 1. Fork the repository
-2. Create a branch for your feature or bugfix: `git checkout -b feature/name`
-3. Make your changes and add tests
-4. Run `go test ./...` and ensure the test suite passes
-5. Open a pull request describing your changes
+2. Create a branch for your feature: `git checkout -b feature/new-example`
+3. Make your changes following Go best practices
+4. Test your code thoroughly
+5. Open a pull request with a clear description
 
-Please keep changes small and focused and follow Go idioms.
+## 📝 License
 
-## License
+This project is open source and available under the MIT License.
 
-This project is provided under the MIT License. See LICENSE for details.
+## 👤 Author
 
-## Contact
+Created by **Dav16Akin**
 
-Created by Dav16Akin. Feel free to open issues or pull requests on GitHub: https://github.com/Dav16Akin/go-dictionary
+- GitHub: [@Dav16Akin](https://github.com/Dav16Akin)
+- Repository: [go-dictionary](https://github.com/Dav16Akin/go-dictionary)
+
+## 🔗 Related Resources
+
+- [Gorilla Mux Documentation](https://github.com/gorilla/mux)
+- [HttpRouter Documentation](https://github.com/julienschmidt/httprouter)
+- [Go HTTP Server Documentation](https://pkg.go.dev/net/http)
+
+---
+
+Feel free to open issues or pull requests for improvements, bug fixes, or new examples!
