@@ -9,6 +9,7 @@ This project contains several examples of HTTP server implementations in Go:
 1. **Gorilla Mux Router** - Example using the Gorilla Mux framework
 2. **HttpRouter** - Example using the lightweight httprouter package
 3. **Stateful API** - A complete RESTful API with in-memory user management
+4. **Learning Middlewares** - Example demonstrating HTTP middleware chaining patterns
 
 These examples are designed for learning and reference, demonstrating best practices for building HTTP servers in Go.
 
@@ -16,14 +17,24 @@ These examples are designed for learning and reference, demonstrating best pract
 
 ```
 .
+├── learningMiddlewares/
+│   └── learningMiddlewares.go  # HTTP middleware chaining example
 ├── otherMux/
-│   ├── gorillaMux.go      # Example using Gorilla Mux router
-│   └── httpRouter.go      # Example using HttpRouter
+│   ├── gorillaMux.go           # Example using Gorilla Mux router
+│   └── httpRouter.go           # Example using HttpRouter
 └── testingStatefulApi/
-    └── statefulApi.go     # Stateful REST API with user CRUD operations
+    └── statefulApi.go          # Stateful REST API with user CRUD operations
 ```
 
 ## 🚀 Features
+
+### Learning Middlewares Example (`learningMiddlewares/learningMiddlewares.go`)
+- HTTP middleware chaining demonstration
+- Content-Type validation middleware
+- Server timestamp cookie middleware
+- RESTful city management API
+- Thread-safe operations with mutex
+- JSON request/response handling
 
 ### Gorilla Mux Example (`otherMux/gorillaMux.go`)
 - Route parameters extraction
@@ -72,6 +83,34 @@ go mod tidy
 ```
 
 ## 💻 Usage
+
+### Running the Learning Middlewares Example
+
+The Learning Middlewares example demonstrates how to chain multiple HTTP middlewares together:
+
+```bash
+cd learningMiddlewares
+go run learningMiddlewares.go
+```
+
+Server will start on `http://localhost:8080`
+
+**API Endpoints:**
+
+- `POST /city` - Create a new city
+
+**Example Request:**
+
+Create a city:
+```bash
+curl -X POST http://localhost:8080/city \
+  -H "Content-Type: application/json" \
+  -d '{"name":"New York","area":783800000}'
+```
+
+**Middleware Features:**
+- **Content-Type Middleware**: Validates that requests have `Content-Type: application/json` header
+- **Server Time Middleware**: Adds a cookie with the current server timestamp (UTC)
 
 ### Running the Stateful API Example
 
