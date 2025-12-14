@@ -105,15 +105,10 @@ cd go-dictionary
 
 2. Install dependencies:
 ```bash
-go mod download
+go mod tidy
 ```
 
-Or install dependencies individually:
-```bash
-go get github.com/gorilla/mux
-go get github.com/julienschmidt/httprouter
-go get github.com/gorilla/rpc
-```
+This will download all required dependencies listed in `go.mod`.
 
 ## 💻 Usage
 
@@ -246,10 +241,12 @@ The `rpcClient` package provides both server and client modes:
 
 ```bash
 # Run in server mode
-go run rpcClient/rpcClient.go server
+cd rpcClient
+go run rpcClient.go server
 
 # Run in client mode (requires server to be running)
-go run rpcClient/rpcClient.go client
+cd rpcClient
+go run rpcClient.go client
 ```
 
 The client will connect to the RPC server and retrieve the current Unix timestamp.
