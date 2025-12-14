@@ -4,14 +4,17 @@ A collection of Go HTTP routing examples demonstrating different web frameworks 
 
 ## 📋 Overview
 
-This project contains several examples of HTTP server implementations in Go:
+This project contains several examples of HTTP server implementations and RPC (Remote Procedure Call) services in Go:
 
 1. **Gorilla Mux Router** - Example using the Gorilla Mux framework
 2. **HttpRouter** - Example using the lightweight httprouter package
 3. **Stateful API** - A complete RESTful API with in-memory user management
 4. **Learning Middlewares** - Example demonstrating HTTP middleware chaining patterns
+5. **RPC Server** - Standard Go RPC server providing time service
+6. **RPC Client** - Client for connecting to the RPC server
+7. **Gorilla RPC Server** - JSON-RPC server for book details lookup
 
-These examples are designed for learning and reference, demonstrating best practices for building HTTP servers in Go.
+These examples are designed for learning and reference, demonstrating best practices for building HTTP servers and RPC services in Go.
 
 ## 📂 Project Structure
 
@@ -22,8 +25,14 @@ These examples are designed for learning and reference, demonstrating best pract
 ├── otherMux/
 │   ├── gorillaMux.go           # Example using Gorilla Mux router
 │   └── httpRouter.go           # Example using HttpRouter
-└── testingStatefulApi/
-    └── statefulApi.go          # Stateful REST API with user CRUD operations
+├── testingStatefulApi/
+│   └── statefulApi.go          # Stateful REST API with user CRUD operations
+├── rpcServer/
+│   └── rpcServer.go            # Standard Go RPC server (time service)
+├── rpcClient/
+│   └── rpcClient.go            # RPC client with server/client modes
+└── gorillaRPCServer/
+    └── gorillarpcserver.go     # JSON-RPC server using Gorilla RPC
 ```
 
 ## 🚀 Features
@@ -55,12 +64,36 @@ These examples are designed for learning and reference, demonstrating best pract
 - Full CRUD operations (Create, Read, Update, Delete)
 - JSON request/response handling
 
+### RPC Server Example (`rpcServer/rpcServer.go`)
+- Standard Go RPC server implementation
+- TCP-based communication on port 1234
+- Time service providing Unix timestamps
+- HTTP RPC protocol support
+- Simple RPC method registration
+
+### RPC Client Example (`rpcClient/rpcClient.go`)
+- RPC client for connecting to the RPC server
+- Supports both server and client modes
+- Command-line argument handling
+- Integration with Air for live reloading
+- Remote procedure call demonstration
+
+### Gorilla RPC Server Example (`gorillaRPCServer/gorillarpcserver.go`)
+- JSON-RPC server using Gorilla RPC framework
+- HTTP/JSON-based communication
+- Book details lookup service
+- File-based data storage (book.json)
+- RESTful-style RPC endpoint
+
 ## 📦 Prerequisites
 
 - Go 1.16 or higher
 - Required dependencies:
   - `github.com/gorilla/mux` - For Gorilla Mux example
   - `github.com/julienschmidt/httprouter` - For HttpRouter example
+  - `github.com/gorilla/rpc` - For Gorilla RPC server example
+  - `github.com/gorilla/handlers` - For HTTP handlers
+  - `github.com/justinas/alice` - For middleware chaining
 
 ## 🔧 Installation
 
@@ -72,14 +105,14 @@ cd go-dictionary
 
 2. Install dependencies:
 ```bash
-go get github.com/gorilla/mux
-go get github.com/julienschmidt/httprouter
+go mod download
 ```
 
-Or if you want to create a go.mod file, use Go modules:
+Or install dependencies individually:
 ```bash
-go mod init github.com/Dav16Akin/go-dictionary
-go mod tidy
+go get github.com/gorilla/mux
+go get github.com/julienschmidt/httprouter
+go get github.com/gorilla/rpc
 ```
 
 ## 💻 Usage
@@ -195,6 +228,68 @@ Server will start on `http://localhost:8000`
 - `GET /api/v1/show-file` - Returns file content
 - `GET /static/*filepath` - Serves static files
 
+### Running the RPC Server and Client
+
+The RPC server provides a time service using standard Go RPC over TCP:
+
+**Start the RPC Server:**
+```bash
+cd rpcServer
+go run rpcServer.go
+```
+
+Server will start on `tcp://localhost:1234`
+
+**Run the RPC Client:**
+
+The `rpcClient` package provides both server and client modes:
+
+```bash
+# Run in server mode
+go run rpcClient/rpcClient.go server
+
+# Run in client mode (requires server to be running)
+go run rpcClient/rpcClient.go client
+```
+
+The client will connect to the RPC server and retrieve the current Unix timestamp.
+
+### Running the Gorilla RPC Server
+
+The Gorilla RPC server provides a JSON-RPC service for book lookups:
+
+**Note:** Before running, you need to create a `book.json` file in the project root with book data:
+
+```json
+[
+  {
+    "id": "1",
+    "name": "The Go Programming Language",
+    "author": "Alan A. A. Donovan"
+  },
+  {
+    "id": "2",
+    "name": "Learning Go",
+    "author": "Jon Bodner"
+  }
+]
+```
+
+```bash
+cd gorillaRPCServer
+go run gorillarpcserver.go
+```
+
+Server will start on `http://localhost:1234`
+
+**Example JSON-RPC Request:**
+
+```bash
+curl -X POST http://localhost:1234/rpc \
+  -H "Content-Type: application/json" \
+  -d '{"method":"JSONServer.GiveBookDetail","params":[{"Id":"1"}],"id":1}'
+```
+
 ## 📚 Learning Resources
 
 These examples demonstrate:
@@ -205,6 +300,10 @@ These examples demonstrate:
 - JSON encoding/decoding
 - Error handling in HTTP handlers
 - Custom timeouts and server configuration
+- RPC (Remote Procedure Call) implementations
+- Standard Go RPC over TCP
+- JSON-RPC with Gorilla RPC
+- Client-server communication patterns
 
 ## 🤝 Contributing
 
@@ -231,7 +330,9 @@ Created by **Dav16Akin**
 
 - [Gorilla Mux Documentation](https://github.com/gorilla/mux)
 - [HttpRouter Documentation](https://github.com/julienschmidt/httprouter)
+- [Gorilla RPC Documentation](https://github.com/gorilla/rpc)
 - [Go HTTP Server Documentation](https://pkg.go.dev/net/http)
+- [Go RPC Package Documentation](https://pkg.go.dev/net/rpc)
 
 ---
 
