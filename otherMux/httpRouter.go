@@ -39,7 +39,7 @@ func getFileContent(w http.ResponseWriter, r *http.Request, params httprouter.Pa
 	fmt.Fprintln(w, string(output))
 }
 
-func main2() {
+func RunHttpRouter(port string) {
 	router := httprouter.New()
 	router.ServeFiles("/static/*filepath", http.Dir("/Users/apple/Documents/static"))
 	// Mapping to methods is possible with HttpRouter
@@ -47,6 +47,6 @@ func main2() {
 	// Path variable called name used here
 	router.GET("/api/v1/show-file", getFileContent)
 
-	fmt.Println("Server running on :8000")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	fmt.Printf("Server running on port %s", port)
+	log.Fatal(http.ListenAndServe(port, router))
 }

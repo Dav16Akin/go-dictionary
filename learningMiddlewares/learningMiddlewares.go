@@ -5,9 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/gorilla/handlers"
+	"github.com/justinas/alice"
 )
 
 type City struct {
@@ -51,6 +55,9 @@ func mainLogic(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 
 	switch r.Method {
+	case "GET":
+		json.NewEncoder(w).Encode(cities)
+
 	case "POST":
 		var citiesData City
 
@@ -74,12 +81,20 @@ func mainLogic(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func learningMiddlewares() {
+func Run(port string) {
 	mainHandleLogic := http.HandlerFunc(mainLogic)
 
-	// here we are chaining middlewares together
-	http.Handle("/city", ContentTypeMiddleware(ServerTimeMiddleware(mainHandleLogic)))
+	// here we are chaining middlewares together without a library
+	// http.Handle("/city", ContentTypeMiddleware(ServerTimeMiddleware(mainHandleLogic)))
+
+	// using alice for middleware chaining
+	chain := alice.New(ContentTypeMiddleware, ServerTimeMiddleware).Then(mainHandleLogic)
+
+	http.Handle("/city", chain)
+
+	//using the gorilla logger 
+	loggedRouter := handlers.LoggingHandler(os.Stdout, chain)
 
 	fmt.Println("Server running on PORT 8080....")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(port, loggedRouter))
 }

@@ -97,12 +97,12 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func statefulApi() {
+func Run(port string) {
 	http.HandleFunc("/users", usersHandler)
 	http.HandleFunc("/users/", userHandler)
 
 	fmt.Println("Server running on Port 8080...")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(port, nil); err != nil {
 		log.Fatal(err)
 	}
 }

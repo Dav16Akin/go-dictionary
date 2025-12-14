@@ -16,7 +16,7 @@ func ArticleHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "ID is: %v\n", vars["id"])
 }
 
-func gorillaMux() {
+func RunGorilla(port string) {
 
 	r := mux.NewRouter()
 
@@ -26,9 +26,15 @@ func gorillaMux() {
 		fmt.Fprintln(w, "Hello from the server")
 	})
 
+
+	address := port
+    if string(port[0]) != ":" {
+        address = ":" + port
+    }
+
 	srv := &http.Server{
 		Handler:      r,
-		Addr:         "127.0.0.1:8000",
+		Addr:         address,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
