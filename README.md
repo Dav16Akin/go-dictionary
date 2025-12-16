@@ -13,6 +13,8 @@ This project contains several examples of HTTP server implementations and RPC (R
 5. **RPC Server** - Standard Go RPC server providing time service
 6. **RPC Client** - Client for connecting to the RPC server
 7. **Gorilla RPC Server** - JSON-RPC server for book details lookup
+8. **Go-Restful Fundamentals** - REST API example using the go-restful framework
+9. **SQLite Fundamentals** - Database operations example with SQLite demonstrating CRUD operations
 
 These examples are designed for learning and reference, demonstrating best practices for building HTTP servers and RPC services in Go.
 
@@ -31,8 +33,13 @@ These examples are designed for learning and reference, demonstrating best pract
 │   └── rpcServer.go            # Standard Go RPC server (time service)
 ├── rpcClient/
 │   └── rpcClient.go            # RPC client with server/client modes
-└── gorillaRPCServer/
-    └── gorillarpcserver.go     # JSON-RPC server using Gorilla RPC
+├── gorillaRPCServer/
+│   └── gorillarpcserver.go     # JSON-RPC server using Gorilla RPC
+├── goRestfulFundamemtals/
+│   └── gorestfulfundamentals.go # REST API using go-restful framework
+├── sqliteFundamentals/
+│   └── sqliteFundamentals.go   # SQLite database CRUD operations example
+└── .air.toml                    # Air live reload configuration
 ```
 
 ## 🚀 Features
@@ -85,6 +92,21 @@ These examples are designed for learning and reference, demonstrating best pract
 - File-based data storage (book.json)
 - RESTful-style RPC endpoint
 
+### Go-Restful Fundamentals Example (`goRestfulFundamemtals/gorestfulfundamentals.go`)
+- REST API using the go-restful framework
+- Simple ping time service
+- WebService and Route registration
+- HTTP GET endpoint demonstration
+- Lightweight REST API pattern
+
+### SQLite Fundamentals Example (`sqliteFundamentals/sqliteFundamentals.go`)
+- SQLite database integration with Go
+- Complete CRUD operations (Create, Read, Update, Delete)
+- Table creation and management
+- Prepared statements for SQL queries
+- Database connection handling
+- Book inventory management example
+
 ## 📦 Prerequisites
 
 - Go 1.16 or higher
@@ -94,6 +116,10 @@ These examples are designed for learning and reference, demonstrating best pract
   - `github.com/gorilla/rpc` - For Gorilla RPC server example
   - `github.com/gorilla/handlers` - For HTTP handlers
   - `github.com/justinas/alice` - For middleware chaining
+  - `github.com/emicklei/go-restful` - For go-restful fundamentals example
+  - `github.com/mattn/go-sqlite3` - For SQLite database example
+- Optional tools:
+  - [Air](https://github.com/air-verse/air) - Live reload for Go apps (configured via `.air.toml`)
 
 ## 🔧 Installation
 
@@ -287,6 +313,68 @@ curl -X POST http://localhost:1234/rpc \
   -d '{"method":"JSONServer.GiveBookDetail","params":[{"Id":"1"}],"id":1}'
 ```
 
+### Running the Go-Restful Fundamentals Example
+
+The Go-Restful Fundamentals example demonstrates building REST APIs using the go-restful framework:
+
+```bash
+cd goRestfulFundamemtals
+go run gorestfulfundamentals.go
+```
+
+Server will start on `http://localhost:8000`
+
+**API Endpoints:**
+
+- `GET /ping` - Returns the current server time
+
+**Example Request:**
+
+```bash
+curl http://localhost:8000/ping
+```
+
+This will return the current server timestamp.
+
+### Running the SQLite Fundamentals Example
+
+The SQLite Fundamentals example demonstrates database operations with SQLite:
+
+```bash
+cd sqliteFundamentals
+go run sqliteFundamentals.go
+```
+
+This example demonstrates:
+- Creating a database and table (`books.db`)
+- Inserting records into the database
+- Reading all records from the database
+- Updating existing records
+- Deleting records
+
+The example will create a `books.db` file in the project root directory and perform all CRUD operations, logging each step to the console.
+
+**Note:** The program performs automated CRUD operations and doesn't expose HTTP endpoints. Check the console output to see the results of each database operation.
+
+### Using Air for Live Reload
+
+This project includes an `.air.toml` configuration file for the [Air](https://github.com/air-verse/air) live reload tool, which automatically rebuilds and restarts your Go application when you make changes.
+
+**Install Air:**
+
+```bash
+go install github.com/air-verse/air@latest
+```
+
+**Run with Air:**
+
+```bash
+# From the project root
+air
+```
+
+Air will watch for changes in your `.go` files and automatically rebuild and restart your application.
+
 ## 📚 Learning Resources
 
 These examples demonstrate:
@@ -301,6 +389,11 @@ These examples demonstrate:
 - Standard Go RPC over TCP
 - JSON-RPC with Gorilla RPC
 - Client-server communication patterns
+- REST API development with go-restful framework
+- Database integration with SQLite
+- CRUD operations with SQL databases
+- Prepared statements and SQL query execution
+- Live reload development workflow with Air
 
 ## 🤝 Contributing
 
@@ -330,6 +423,9 @@ Created by **Dav16Akin**
 - [Gorilla RPC Documentation](https://github.com/gorilla/rpc)
 - [Go HTTP Server Documentation](https://pkg.go.dev/net/http)
 - [Go RPC Package Documentation](https://pkg.go.dev/net/rpc)
+- [Go-Restful Documentation](https://github.com/emicklei/go-restful)
+- [Go SQLite3 Driver Documentation](https://github.com/mattn/go-sqlite3)
+- [Air Live Reload Tool](https://github.com/air-verse/air)
 
 ---
 
