@@ -75,10 +75,10 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch r.Method {
-	case "GET": 
+	case "GET":
 		json.NewEncoder(w).Encode(user)
 
-	case "PUT": 
+	case "PUT":
 		var updatedUser User
 		if err := json.NewDecoder(r.Body).Decode(&updatedUser); err != nil {
 			http.Error(w, "Invalid Json", http.StatusBadRequest)
