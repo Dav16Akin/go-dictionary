@@ -2,6 +2,6 @@ package main
 
 import "fmt"
 
-func main() {
-    fmt.Println("Hello from the server side")
+func main () {
+	fmt.Println("Hello from the sever side !!")
 }
