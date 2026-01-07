@@ -15,6 +15,8 @@ This project contains several examples of HTTP server implementations and RPC (R
 7. **Gorilla RPC Server** - JSON-RPC server for book details lookup
 8. **Go-Restful Fundamentals** - REST API example using the go-restful framework
 9. **SQLite Fundamentals** - Database operations example with SQLite demonstrating CRUD operations
+10. **Gin Fundamentals** - REST API example using the Gin web framework with SQLite database
+11. **Rail API** - Comprehensive railway management REST API using go-restful framework with database-backed train, station, and schedule management
 
 These examples are designed for learning and reference, demonstrating best practices for building HTTP servers and RPC services in Go.
 
@@ -39,6 +41,13 @@ These examples are designed for learning and reference, demonstrating best pract
 │   └── gorestfulfundamentals.go # REST API using go-restful framework
 ├── sqliteFundamentals/
 │   └── sqliteFundamentals.go   # SQLite database CRUD operations example
+├── ginFundamentals/
+│   └── ginFundamentals.go      # REST API using Gin web framework with SQLite
+├── railAPI/
+│   ├── railAPI.go              # Railway management REST API with go-restful
+│   └── dbUtils/
+│       ├── init-tables.go      # Database table initialization
+│       └── models.go           # Database schema models
 └── .air.toml                    # Air live reload configuration
 ```
 
@@ -107,6 +116,27 @@ These examples are designed for learning and reference, demonstrating best pract
 - Database connection handling
 - Book inventory management example
 
+### Gin Fundamentals Example (`ginFundamentals/ginFundamentals.go`)
+- REST API using the Gin web framework
+- SQLite database integration
+- Railway station management API
+- Full CRUD operations for stations
+- JSON request/response handling with Gin
+- Database-backed persistent storage
+- Error handling and validation
+- HTTP status code management
+
+### Rail API Example (`railAPI/railAPI.go`)
+- Comprehensive railway management system
+- REST API using go-restful framework
+- SQLite database with multiple related tables
+- Train management with driver information
+- Station management with operating hours
+- Schedule management for train-station relationships
+- Database utilities for table initialization
+- Modular database schema design
+- Foreign key relationships between entities
+
 ## 📦 Prerequisites
 
 - Go 1.16 or higher
@@ -118,6 +148,7 @@ These examples are designed for learning and reference, demonstrating best pract
   - `github.com/justinas/alice` - For middleware chaining
   - `github.com/emicklei/go-restful` - For go-restful fundamentals example
   - `github.com/mattn/go-sqlite3` - For SQLite database example
+  - `github.com/gin-gonic/gin` - For Gin web framework example
 - Optional tools:
   - [Air](https://github.com/air-verse/air) - Live reload for Go apps (configured via `.air.toml`)
 
@@ -356,6 +387,103 @@ The example will create a `books.db` file in the project root directory and perf
 
 **Note:** The program performs automated CRUD operations and doesn't expose HTTP endpoints. Check the console output to see the results of each database operation.
 
+### Running the Gin Fundamentals Example
+
+The Gin Fundamentals example demonstrates building a REST API using the Gin web framework with SQLite database:
+
+```bash
+cd ginFundamentals
+go run ginFundamentals.go
+```
+
+Server will start on `http://localhost:8000`
+
+**API Endpoints:**
+
+- `GET /v1/stations` - List all railway stations
+- `GET /v1/stations/:station_id` - Get a specific station by ID
+- `POST /v1/stations` - Create a new station
+- `DELETE /v1/stations/:station_id` - Delete a station
+
+**Example Requests:**
+
+Create a station:
+```bash
+curl -X POST http://localhost:8000/v1/stations \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Grand Central","opening_time":"08:00:00","closing_time":"22:00:00"}'
+```
+
+Get all stations:
+```bash
+curl http://localhost:8000/v1/stations
+```
+
+Get a specific station:
+```bash
+curl http://localhost:8000/v1/stations/1
+```
+
+Delete a station:
+```bash
+curl -X DELETE http://localhost:8000/v1/stations/1
+```
+
+This example demonstrates:
+- Building REST APIs with the Gin framework
+- Database integration with SQLite
+- CRUD operations with database persistence
+- JSON request/response handling
+- Error handling and HTTP status codes
+- Database connection management
+
+### Running the Rail API Example
+
+The Rail API example demonstrates a comprehensive railway management system using go-restful framework:
+
+```bash
+cd railAPI
+go run railAPI.go
+```
+
+Server will start on `http://localhost:8000`
+
+**API Endpoints:**
+
+- `GET /v1/trains/{train-id}` - Get train details by ID
+- `POST /v1/trains` - Create a new train
+- `DELETE /v1/trains/{train-id}` - Delete a train
+
+**Example Requests:**
+
+Create a train:
+```bash
+curl -X POST http://localhost:8000/v1/trains \
+  -H "Content-Type: application/json" \
+  -d '{"driver_name":"John Smith","operating_status":true}'
+```
+
+Get a train:
+```bash
+curl http://localhost:8000/v1/trains/1
+```
+
+Delete a train:
+```bash
+curl -X DELETE http://localhost:8000/v1/trains/1
+```
+
+This example demonstrates:
+- Building REST APIs with go-restful framework
+- SQLite database with multiple related tables (trains, stations, schedules)
+- Database schema design with foreign key relationships
+- Modular code organization with database utilities
+- Input validation and error handling
+- RESTful API design patterns
+- Database transaction management
+
+**Note:** The Rail API uses a shared database (`railapi.db`) that includes tables for trains, stations, and schedules. The database is automatically initialized on first run.
+
 ### Using Air for Live Reload
 
 This project includes an `.air.toml` configuration file for the [Air](https://github.com/air-verse/air) live reload tool, which automatically rebuilds and restarts your Go application when you make changes.
@@ -390,9 +518,11 @@ These examples demonstrate:
 - JSON-RPC with Gorilla RPC
 - Client-server communication patterns
 - REST API development with go-restful framework
+- REST API development with Gin web framework
 - Database integration with SQLite
 - CRUD operations with SQL databases
 - Prepared statements and SQL query execution
+- Database schema design and relationships
 - Live reload development workflow with Air
 
 ## 🤝 Contributing
@@ -424,6 +554,7 @@ Created by **Dav16Akin**
 - [Go HTTP Server Documentation](https://pkg.go.dev/net/http)
 - [Go RPC Package Documentation](https://pkg.go.dev/net/rpc)
 - [Go-Restful Documentation](https://github.com/emicklei/go-restful)
+- [Gin Web Framework Documentation](https://github.com/gin-gonic/gin)
 - [Go SQLite3 Driver Documentation](https://github.com/mattn/go-sqlite3)
 - [Air Live Reload Tool](https://github.com/air-verse/air)
 
