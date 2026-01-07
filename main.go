@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
-func main () {
-	fmt.Println("Hello from the sever side !!")
+func main() {
+	//test any mux or api here
 }
